@@ -5,7 +5,7 @@ import { Home } from "./pages/Home";
 import ProtectedRoute from "./pages/components/ProtectedRoute";
 import authService from "./service/authService";
 import { useState } from "react";
-import { Perfil } from "./pages/Profile";
+import { Profile } from "./pages/Profile";
 import Assistencias from "./pages/Assistencias";
 import { PontosDeColeta } from "./pages/PontosDeColeta";
 import { MinhasColetas } from "./pages/MinhasColetas";
@@ -45,7 +45,7 @@ export default function App() {
           path="/authenticated/coletas-historico"
           element={<MinhasColetas />}
         />
-        <Route path="/authenticated/profile" element={<Perfil />} />
+        <Route path="/authenticated/profile" element={<Profile />} />
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>

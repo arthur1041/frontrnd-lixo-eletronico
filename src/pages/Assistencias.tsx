@@ -13,6 +13,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import { AssistenciaTecnicaMapa } from "./components/Mapas";
+import ContainerBox from "./components/ContainerBox";
 
 type Assistencia = {
   id: number;
@@ -66,89 +67,91 @@ export default function Assistencias() {
       <Navbar />
       <Box display="flex" flexDirection="row" width="100%">
         <Sidebar />
-        <Box width="100%" padding="50px">
-          <Typography variant="h4" gutterBottom>
-            Assistências Técnicas
-          </Typography>
+        <ContainerBox>
+          <Box width="100%" padding="50px">
+            <Typography variant="h4" gutterBottom>
+              Assistências Técnicas
+            </Typography>
 
-          <Box mb={4}>
-            <AssistenciaTecnicaMapa />
-          </Box>
+            <Box mb={4}>
+              <AssistenciaTecnicaMapa />
+            </Box>
 
-          <Grid container spacing={2}>
-            {assistenciasMock.map((a) => (
-              <Grid key={a.id} size={4}>
-                <Card elevation={2}>
-                  <CardContent>
-                    <Typography variant="h6">{a.nome}</Typography>
+            <Grid container spacing={2}>
+              {assistenciasMock.map((a) => (
+                <Grid key={a.id} size={4}>
+                  <Card elevation={2}>
+                    <CardContent>
+                      <Typography variant="h6">{a.nome}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {a.endereco}
+                      </Typography>
+                      <Rating
+                        value={a.nota}
+                        precision={0.1}
+                        readOnly
+                        sx={{ mt: 1, mb: 2 }}
+                      />
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        onClick={() => abrirModal(a)}
+                      >
+                        Ver mais
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Modal open={modalAberto} onClose={fecharModal}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  bgcolor: "background.paper",
+                  borderRadius: 2,
+                  boxShadow: 24,
+                  p: 4
+                }}
+              >
+                {assistenciaSelecionada && (
+                  <>
+                    <Typography variant="h6" gutterBottom>
+                      {assistenciaSelecionada.nome}
+                    </Typography>
+                    <Divider sx={{ mb: 2 }} />
+                    <Typography variant="body1" gutterBottom>
+                      {assistenciaSelecionada.descricao}
+                    </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {a.endereco}
+                      Endereço: {assistenciaSelecionada.endereco}
                     </Typography>
                     <Rating
-                      value={a.nota}
+                      value={assistenciaSelecionada.nota}
                       precision={0.1}
                       readOnly
-                      sx={{ mt: 1, mb: 2 }}
+                      sx={{ mt: 2 }}
                     />
                     <Button
                       fullWidth
-                      variant="outlined"
-                      size="small"
-                      onClick={() => abrirModal(a)}
+                      variant="contained"
+                      sx={{ mt: 3 }}
+                      onClick={fecharModal}
                     >
-                      Ver mais
+                      Fechar
                     </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          <Modal open={modalAberto} onClose={fecharModal}>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 400,
-                bgcolor: "background.paper",
-                borderRadius: 2,
-                boxShadow: 24,
-                p: 4
-              }}
-            >
-              {assistenciaSelecionada && (
-                <>
-                  <Typography variant="h6" gutterBottom>
-                    {assistenciaSelecionada.nome}
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  <Typography variant="body1" gutterBottom>
-                    {assistenciaSelecionada.descricao}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Endereço: {assistenciaSelecionada.endereco}
-                  </Typography>
-                  <Rating
-                    value={assistenciaSelecionada.nota}
-                    precision={0.1}
-                    readOnly
-                    sx={{ mt: 2 }}
-                  />
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3 }}
-                    onClick={fecharModal}
-                  >
-                    Fechar
-                  </Button>
-                </>
-              )}
-            </Box>
-          </Modal>
-        </Box>
+                  </>
+                )}
+              </Box>
+            </Modal>
+          </Box>
+        </ContainerBox>
       </Box>
     </Box>
   );
